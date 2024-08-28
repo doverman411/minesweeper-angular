@@ -14,7 +14,7 @@ import { Subject } from 'rxjs';
 export class GameBoardComponent {
   width = 5;
   height = 10;
-  numMines = 49;
+  numMines = 2;
   numFlags = 0;
   started = false;
   stopped = false;
@@ -27,8 +27,6 @@ export class GameBoardComponent {
   }
 
   start() {
-    console.log('nexting startSubject');
-    console.log('2 start out');
     this.started = true;
     this.startSubject.next();
   }

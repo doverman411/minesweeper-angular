@@ -19,8 +19,8 @@
                 [resetEventIn]="resetEventIn"
                 (startEventOut)="start($event)"
                 (stopEventOut)="stop($event)"
-                (flagEvent)="updateFlagCount($event)"
-                (sweepEvent)="sweep($event)"
+                (flagEvent)="handleFlag($event)"
+                (tileClick)="handleTileClick($event)"
             >
             </app-tile>
             

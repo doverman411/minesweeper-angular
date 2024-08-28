@@ -21,18 +21,21 @@ export class TileComponent {
   @Input() resetEventIn!: Observable<void>;
   @Output() startEventOut = new EventEmitter<any>();
   @Output() stopEventOut = new EventEmitter<boolean>();
-  @Output() flagEvent = new EventEmitter<boolean>();
-  @Output() sweepEvent = new EventEmitter<any>();
+  @Output() flagEvent = new EventEmitter<any>();
+  @Output() tileClick = new EventEmitter<any>();
 
   handleClick() {
-    this.sweepEvent.emit(this.id);
+    this.tileClick.emit(this.id);
   }
   
   handleContextMenu(event: any) {
     event.preventDefault();
     if (this.isSwept || this.stopped) return;
     this.hasFlag = !this.hasFlag;
-    this.flagEvent.emit(this.hasFlag);
+    this.flagEvent.emit({
+      hasFlag: this.hasFlag,
+      tileID: this.id
+    });
   }
   
 }

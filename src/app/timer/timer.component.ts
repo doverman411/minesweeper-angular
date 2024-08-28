@@ -9,7 +9,7 @@ import { Observable, Subscription } from 'rxjs';
 })
 export class TimerComponent implements OnInit, OnDestroy{
   @Input() startEventIn!: Observable<void>;
-  @Input() stopEventIn!: Observable<void>;
+  @Input() stopEventIn!: Observable<boolean>;
   @Input() resetEventIn!: Observable<void>;
   private startEventSubscription!: Subscription;
   private stopEventSubscription!: Subscription;
@@ -19,7 +19,7 @@ export class TimerComponent implements OnInit, OnDestroy{
 
   ngOnInit() {
     this.startEventSubscription = this.startEventIn.subscribe(()=>this.start());
-    this.stopEventSubscription = this.stopEventIn.subscribe(()=>this.stop());
+    this.stopEventSubscription = this.stopEventIn.subscribe((hasWon: boolean)=>{this.stop()});
     this.resetEventSubscription = this.resetEventIn.subscribe(()=>this.reset());
   }
 

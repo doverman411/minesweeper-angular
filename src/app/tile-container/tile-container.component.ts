@@ -33,11 +33,11 @@ export class TileContainerComponent implements OnInit, OnDestroy {
     this.resetEventSubscription.unsubscribe();
   }
   start(tileID: any) {
+    this.started = true;
     this.placeMines(tileID.row, tileID.col);
-    console.log('1 start out');
     this.startEventOut.emit();
   }
-  async stop(hasWon: boolean) {
+  stop(hasWon: boolean) {
     this.stopEventOut.emit(hasWon);
   }
   reset() {
@@ -78,16 +78,21 @@ export class TileContainerComponent implements OnInit, OnDestroy {
       let coordinate = pool[randomIndex];
       this.tiles[coordinate.row].row[coordinate.col].hasMine = true;
       pool.splice(randomIndex,1);
-      for(let tile of this.tilesAround(coordinate.row,coordinate.col)) {
+      for(let tile of this.tilesAround(coordinate)) {
         ++tile.number;
       }
     }
   }
-  updateFlagCount(isFlagged: boolean) {
-    this.flagEvent.emit(isFlagged);
+  handleFlag(data: any) {
+    let row = data.tileID.row;
+    let col = data.tileID.col;
+    this.tiles[row].row[col].hasFlag = data.hasFlag;
+    this.flagEvent.emit(data.hasFlag);
   }
-  tilesAround(row: number, col: number) {
+  tilesAround(coordinate:any) {
     let ret = []
+    let row = coordinate.row;
+    let col = coordinate.col;
     for(let r=row-1;r<=row+1;++r) {
       for(let c=col-1;c<=col+1;++c) {
         if (this.validCoordinate(r,c) && !(r==row && c==col)) {
@@ -100,13 +105,28 @@ export class TileContainerComponent implements OnInit, OnDestroy {
   validCoordinate(row: number, col: number) {
     return 0 <= row && row < this.height && 0 <= col && col < this.width;
   }
-  sweep(tileID: any) {
+  handleTileClick(tileID: any) {
     let tile = this.tiles[tileID.row].row[tileID.col];
-    if (tile.hasFlag || this.stopped) return; 
+    if (tile.hasFlag || this.stopped ) return;
+    if (tile.isSwept) {
+      this.chord(tile);
+    } else {
+      this.sweep(tile);
+    }
+  }
+  chord(tile: any) {
+    let tilesAround = this.tilesAround(tile.id);
+    if (tilesAround.filter((t: any)=>t.hasFlag).length == tile.number) {
+      for(const tile of tilesAround.filter((t: any)=>!t.hasFlag)) {
+        this.sweep(tile);
+      }
+    }
+  }
+  sweep(tile: any) {
+    if (tile.isSwept || tile.hasFlag || this.stopped) return; 
     tile.isSwept = true;
     ++this.tilesCleared;
     if (!this.started) {
-      console.log('emitting gameStart');
       this.start(tile.id);
     }
     if (tile.hasMine && !this.stopped) {
@@ -115,6 +135,12 @@ export class TileContainerComponent implements OnInit, OnDestroy {
     }
     if (this.tilesCleared == this.width * this.height - this.numMines) {
       this.stop(true);
+      return;
+    }
+    if (tile.number == 0) {
+      for (let tileAround of this.tilesAround(tile.id)) {
+        this.sweep(tileAround);
+      }
     }
   }
 }
