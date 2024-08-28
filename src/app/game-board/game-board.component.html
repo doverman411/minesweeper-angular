@@ -1,4 +1,6 @@
 <app-top-hud
+    [stopped]="stopped"
+    [hasWon]="hasWon"
     [remainingFlags]="remainingFlags"
     [startEventIn]="startSubject.asObservable()"
     [stopEventIn]="stopSubject.asObservable()"
@@ -6,12 +8,15 @@
     (resetEventOut)="reset()"
 ></app-top-hud>
 <app-tile-container
+    [started]="started"
+    [stopped]="stopped"
+    [hasWon]="hasWon"
     [width]="width"
     [height]="height"
     [numMines]="numMines"
     [resetEventIn]="resetSubject.asObservable()"
     (startEventOut)="start()"
-    (stopEventOut)="stop()"
+    (stopEventOut)="stop($event)"
     (flagEvent)="updateFlagCount($event)"
 >
 </app-tile-container>

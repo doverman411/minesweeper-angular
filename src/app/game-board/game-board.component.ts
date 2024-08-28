@@ -14,10 +14,13 @@ import { Subject } from 'rxjs';
 export class GameBoardComponent {
   width = 5;
   height = 10;
-  numMines = 2;
+  numMines = 49;
   numFlags = 0;
+  started = false;
+  stopped = false;
+  hasWon = false;
   startSubject: Subject<void> = new Subject<void>();
-  stopSubject: Subject<void> = new Subject<void>();
+  stopSubject: Subject<boolean> = new Subject<boolean>();
   resetSubject: Subject<void> = new Subject<void>();
   get remainingFlags() {
     return this.numMines - this.numFlags;
@@ -25,13 +28,20 @@ export class GameBoardComponent {
 
   start() {
     console.log('nexting startSubject');
+    console.log('2 start out');
+    this.started = true;
     this.startSubject.next();
   }
-  stop() {
-    this.stopSubject.next();
+  stop(hasWon: boolean) {
+    this.stopped = true;
+    this.hasWon = hasWon;
+    this.stopSubject.next(hasWon);
   }
   reset() {
     this.numFlags = 0;
+    this.started = false;
+    this.stopped = false;
+    this.hasWon = false;
     this.resetSubject.next();
   }
   updateFlagCount(isFlagged: boolean) {

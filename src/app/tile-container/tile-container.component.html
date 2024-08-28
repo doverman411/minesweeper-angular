@@ -8,14 +8,19 @@
         @for (row of tiles; track row.id) {
             @for (tile of row.row; track tile.id) {
                 <app-tile 
+                [id]="tile.id"
                 [hasMine]="tile.hasMine"
                 [started]="started"
                 [stopped]="stopped"
+                [hasWon]="hasWon"
                 [number]="tile.number"
+                [hasFlag]="tile.hasFlag"
+                [isSwept]="tile.isSwept"
                 [resetEventIn]="resetEventIn"
-                (startEventOut)="start()"
-                (stopEventOut)="stop()"
+                (startEventOut)="start($event)"
+                (stopEventOut)="stop($event)"
                 (flagEvent)="updateFlagCount($event)"
+                (sweepEvent)="sweep($event)"
             >
             </app-tile>
             

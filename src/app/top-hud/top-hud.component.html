@@ -3,5 +3,10 @@
     [stopEventIn]="stopEventIn"
     [resetEventIn]="resetEventIn"
 ></app-timer>
-<app-game-button (reset)="reset()"></app-game-button>
+<app-game-button 
+[stopped]="stopped"
+[hasWon]="hasWon"
+(reset)="reset()"
+>
+</app-game-button>
 <app-flag-counter [count]="remainingFlags"></app-flag-counter>

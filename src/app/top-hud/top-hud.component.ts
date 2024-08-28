@@ -13,8 +13,10 @@ import { Observable } from 'rxjs';
   styleUrl: './top-hud.component.css'
 })
 export class TopHudComponent {
+  @Input() stopped!: boolean;
+  @Input() hasWon!: boolean;
   @Input() startEventIn!: Observable<void>;
-  @Input() stopEventIn!: Observable<void>;
+  @Input() stopEventIn!: Observable<boolean>;
   @Input() resetEventIn!: Observable<void>;
   @Input() remainingFlags!: number;
   @Output() resetEventOut = new EventEmitter<void>();

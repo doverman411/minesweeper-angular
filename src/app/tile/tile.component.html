@@ -3,7 +3,7 @@
     [ngClass]="{'swept':isSwept}" 
     (click)="handleClick()"
     (contextmenu)="handleContextMenu($event)">
-    @if (hasMine && !hasFlag && (isSwept || stopped)) {
+    @if (hasMine && !hasFlag && (isSwept || (stopped && !hasWon))) {
         <img src="/assets/images/mine.png">
     } 
     @else if (hasFlag) {
