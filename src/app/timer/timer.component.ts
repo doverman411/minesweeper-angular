@@ -1,5 +1,4 @@
 import { Component } from '@angular/core';
-
 @Component({
   selector: 'app-timer',
   standalone: true,
@@ -8,5 +7,6 @@ import { Component } from '@angular/core';
   styleUrl: './timer.component.css'
 })
 export class TimerComponent {
-
+  
+  
 }

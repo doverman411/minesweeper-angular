@@ -1,1 +1,16 @@
-<p>tile works!</p>
+<div class="tile" [ngClass]="{'swept':isSwept}">
+    @if (hasMine && !isRunning) {
+        <img src="/assets/images/mine.png">
+    } 
+    @else if (hasFlag) {
+        @if(!isRunning && !hasMine) {
+            <img src="/assets/images/flag_wrong.png">
+        }
+        @else {
+            <img src="/assets/images/flag.png">
+        }
+    } 
+    @else if (isSwept && number > 0) {
+        <p>{{number}}</p>
+    }
+</div>
