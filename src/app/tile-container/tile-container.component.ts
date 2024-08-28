@@ -26,15 +26,18 @@ export class TileContainerComponent implements OnInit {
       for (let c=0; c<this.width;++c) {
         this.tiles[r].row.push({
           id: r*this.width + c,
-          hasMine: true,
+          hasMine: false,
           number: 0
         });
       }
     }
+    this.tiles[0].row[0].hasMine = true;
+    this.tiles[1].row[1].hasMine = true;
   }
   start() {
     this.started = true;
     this.ended = false;
+    console.log('emitting gameStart2')
     this.gameStarted.emit();
   }
   handleGameOver() {

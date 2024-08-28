@@ -1,3 +1,7 @@
-<app-timer></app-timer>
-<app-game-button></app-game-button>
+<app-timer
+    [startEvent]="startSubject.asObservable()"
+    [stopEvent]="stopSubject.asObservable()"
+    [resetEvent]="resetSubject.asObservable()"
+></app-timer>
+<app-game-button (reset)="reset()"></app-game-button>
 <app-flag-counter></app-flag-counter>

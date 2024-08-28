@@ -22,6 +22,7 @@ export class TileComponent {
     if (this.hasFlag || this.ended) return; 
     this.isSwept = true;
     if (!this.started) {
+      console.log('emitting gameStart');
       this.gameStart.emit();
     }
     if (this.hasMine && !this.ended) {

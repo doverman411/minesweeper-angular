@@ -1,2 +1,9 @@
-<app-top-hud></app-top-hud>
-<app-tile-container></app-tile-container>
+<app-top-hud
+    [startEvent]="startSubject.asObservable()"
+    [stopEvent]="stopSubject.asObservable()"
+    [resetEvent]="resetSubject.asObservable()"
+></app-top-hud>
+<app-tile-container
+    (gameStarted)="start()"
+    (gameOver)="handleGameOver()">
+</app-tile-container>
