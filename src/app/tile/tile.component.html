@@ -3,11 +3,11 @@
     [ngClass]="{'swept':isSwept}" 
     (click)="handleClick()"
     (contextmenu)="handleContextMenu($event)">
-    @if (hasMine && (isSwept || !isRunning)) {
+    @if (hasMine && (isSwept || ended)) {
         <img src="/assets/images/mine.png">
     } 
     @else if (hasFlag) {
-        @if(!isRunning && !hasMine) {
+        @if(ended && !hasMine) {
             <img src="/assets/images/flag_wrong.png">
         }
         @else {

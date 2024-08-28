@@ -1,0 +1,10 @@
+.component-container {
+    display: flex;
+    justify-content: center;
+    margin: auto;
+}
+
+.tile-container {
+    display: grid;
+    border: 1px solid black;
+}

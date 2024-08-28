@@ -10,23 +10,28 @@ import { CommonModule } from '@angular/common';
 })
 export class TileComponent {
   @Input() hasMine = false;
-  @Input() isRunning = false;
+  @Input() started = false;
+  @Input() ended = false;
   @Input() number = 0;
+  @Output() gameStart = new EventEmitter<void>();
   @Output() gameOver = new EventEmitter<void>();
   hasFlag = false;
   isSwept = false; 
 
   handleClick() {
-    if (this.hasFlag || !this.isRunning) return; 
+    if (this.hasFlag || this.ended) return; 
     this.isSwept = true;
-    if (this.hasMine && this.isRunning) {
+    if (!this.started) {
+      this.gameStart.emit();
+    }
+    if (this.hasMine && !this.ended) {
       this.gameOver.emit();
     }
   }
   
   handleContextMenu(event: any) {
     event.preventDefault();
-    if (!this.isRunning) return;
+    if (this.isSwept || this.ended) return;
     this.hasFlag = !this.hasFlag;
   }
   
