@@ -12,18 +12,29 @@ import { Subject } from 'rxjs';
   styleUrl: './game-board.component.css'
 })
 export class GameBoardComponent {
+  width = 5;
+  height = 10;
+  numMines = 2;
+  numFlags = 0;
   startSubject: Subject<void> = new Subject<void>();
   stopSubject: Subject<void> = new Subject<void>();
   resetSubject: Subject<void> = new Subject<void>();
+  get remainingFlags() {
+    return this.numMines - this.numFlags;
+  }
 
   start() {
     console.log('nexting startSubject');
     this.startSubject.next();
   }
-  handleGameOver() {
+  stop() {
     this.stopSubject.next();
   }
   reset() {
+    this.numFlags = 0;
     this.resetSubject.next();
+  }
+  updateFlagCount(isFlagged: boolean) {
+    this.numFlags += isFlagged ? 1 : -1;
   }
 }

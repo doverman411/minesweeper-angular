@@ -1,9 +1,9 @@
-import { Component, Input, OnDestroy, OnInit } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { FlagCounterComponent } from '../flag-counter/flag-counter.component';
 import { GameButtonComponent } from '../game-button/game-button.component';
 import { TimerComponent } from '../timer/timer.component';
-import { Observable, Subject, Subscription } from 'rxjs';
+import { Observable } from 'rxjs';
 
 @Component({
   selector: 'app-top-hud',
@@ -12,39 +12,14 @@ import { Observable, Subject, Subscription } from 'rxjs';
   templateUrl: './top-hud.component.html',
   styleUrl: './top-hud.component.css'
 })
-export class TopHudComponent implements OnInit, OnDestroy {
-  private startEventSubscription!: Subscription;
-  private stopEventSubscription!: Subscription;
-  private resetEventSubscription!: Subscription;
-  startSubject: Subject<void> = new Subject<void>();
-  stopSubject: Subject<void> = new Subject<void>();
-  resetSubject: Subject<void> = new Subject<void>();
-  @Input() startEvent!: Observable<void>;
-  @Input() stopEvent!: Observable<void>;
-  @Input() resetEvent!: Observable<void>;
-
-  ngOnInit() {
-    this.startEventSubscription = this.startEvent.subscribe(()=>this.start());
-    this.stopEventSubscription = this.stopEvent.subscribe(()=>this.stop());
-    this.resetEventSubscription = this.resetEvent.subscribe(()=>this.reset());
-  }
-
-  ngOnDestroy() {
-    this.startEventSubscription.unsubscribe();
-    this.stopEventSubscription.unsubscribe();
-    this.resetEventSubscription.unsubscribe();
-  }
-
-  start() {
-    console.log('nexting startSubject2');
-    this.startSubject.next();
-  }
-
-  stop() {
-    this.stopSubject.next();
-  }
+export class TopHudComponent {
+  @Input() startEventIn!: Observable<void>;
+  @Input() stopEventIn!: Observable<void>;
+  @Input() resetEventIn!: Observable<void>;
+  @Input() remainingFlags!: number;
+  @Output() resetEventOut = new EventEmitter<void>();
 
   reset() {
-    this.resetSubject.next();
+    this.resetEventOut.emit();
   }
 }

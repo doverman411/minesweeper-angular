@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, Input } from '@angular/core';
+import { Observable, Subscription } from 'rxjs';
 
 @Component({
   selector: 'app-flag-counter',
@@ -8,5 +9,5 @@ import { Component } from '@angular/core';
   styleUrl: './flag-counter.component.css'
 })
 export class FlagCounterComponent {
-
+  @Input() count!: number;
 }

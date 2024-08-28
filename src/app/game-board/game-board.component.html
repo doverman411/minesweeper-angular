@@ -1,9 +1,17 @@
 <app-top-hud
-    [startEvent]="startSubject.asObservable()"
-    [stopEvent]="stopSubject.asObservable()"
-    [resetEvent]="resetSubject.asObservable()"
+    [remainingFlags]="remainingFlags"
+    [startEventIn]="startSubject.asObservable()"
+    [stopEventIn]="stopSubject.asObservable()"
+    [resetEventIn]="resetSubject.asObservable()"
+    (resetEventOut)="reset()"
 ></app-top-hud>
 <app-tile-container
-    (gameStarted)="start()"
-    (gameOver)="handleGameOver()">
+    [width]="width"
+    [height]="height"
+    [numMines]="numMines"
+    [resetEventIn]="resetSubject.asObservable()"
+    (startEventOut)="start()"
+    (stopEventOut)="stop()"
+    (flagEvent)="updateFlagCount($event)"
+>
 </app-tile-container>

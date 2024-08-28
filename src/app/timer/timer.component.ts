@@ -8,14 +8,26 @@ import { Observable, Subscription } from 'rxjs';
   styleUrl: './timer.component.css'
 })
 export class TimerComponent implements OnInit, OnDestroy{
-  timeElapsed = 0;
-  intervalID: any;
+  @Input() startEventIn!: Observable<void>;
+  @Input() stopEventIn!: Observable<void>;
+  @Input() resetEventIn!: Observable<void>;
   private startEventSubscription!: Subscription;
   private stopEventSubscription!: Subscription;
   private resetEventSubscription!: Subscription;
-  @Input() startEvent!: Observable<void>;
-  @Input() stopEvent!: Observable<void>;
-  @Input() resetEvent!: Observable<void>;
+  timeElapsed = 0;
+  intervalID: any;
+
+  ngOnInit() {
+    this.startEventSubscription = this.startEventIn.subscribe(()=>this.start());
+    this.stopEventSubscription = this.stopEventIn.subscribe(()=>this.stop());
+    this.resetEventSubscription = this.resetEventIn.subscribe(()=>this.reset());
+  }
+
+  ngOnDestroy() {
+    this.startEventSubscription.unsubscribe();
+    this.stopEventSubscription.unsubscribe();
+    this.resetEventSubscription.unsubscribe();
+  }
   
   start() {
     this.intervalID = setInterval(()=>++this.timeElapsed,1000);
@@ -28,17 +40,5 @@ export class TimerComponent implements OnInit, OnDestroy{
   reset() {
     this.timeElapsed = 0;
     this.stop();
-  }
-
-  ngOnInit() {
-    this.startEventSubscription = this.startEvent.subscribe(()=>this.start());
-    this.stopEventSubscription = this.stopEvent.subscribe(()=>this.stop());
-    this.resetEventSubscription = this.resetEvent.subscribe(()=>this.reset());
-  }
-
-  ngOnDestroy() {
-    this.startEventSubscription.unsubscribe();
-    this.stopEventSubscription.unsubscribe();
-    this.resetEventSubscription.unsubscribe();
   }
 }

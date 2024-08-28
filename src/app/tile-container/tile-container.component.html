@@ -10,10 +10,12 @@
                 <app-tile 
                 [hasMine]="tile.hasMine"
                 [started]="started"
-                [ended]="ended"
+                [stopped]="stopped"
                 [number]="tile.number"
-                (gameStart)="start()"
-                (gameOver)="handleGameOver()"
+                [resetEventIn]="resetEventIn"
+                (startEventOut)="start()"
+                (stopEventOut)="stop()"
+                (flagEvent)="updateFlagCount($event)"
             >
             </app-tile>
             
