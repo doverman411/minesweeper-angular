@@ -1,5 +1,9 @@
-<div class="tile" [ngClass]="{'swept':isSwept}">
-    @if (hasMine && !isRunning) {
+<div 
+    class="tile" 
+    [ngClass]="{'swept':isSwept}" 
+    (click)="handleClick()"
+    (contextmenu)="handleContextMenu($event)">
+    @if (hasMine && (isSwept || !isRunning)) {
         <img src="/assets/images/mine.png">
     } 
     @else if (hasFlag) {

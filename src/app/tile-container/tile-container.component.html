@@ -1,16 +1,19 @@
-<app-tile [isRunning]="false" [hasMine]="false" [hasFlag]="false" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="false" [hasFlag]="false" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="false" [hasFlag]="true" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="false" [hasFlag]="true" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="true" [hasFlag]="false" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="true" [hasFlag]="false" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="true" [hasFlag]="true" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="false" [hasMine]="true" [hasFlag]="true" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="false" [hasFlag]="false" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="false" [hasFlag]="false" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="false" [hasFlag]="true" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="false" [hasFlag]="true" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="true" [hasFlag]="false" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="true" [hasFlag]="false" [isSwept]="true" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="true" [hasFlag]="true" [isSwept]="false" [number]="1"></app-tile>
-<app-tile [isRunning]="true" [hasMine]="true" [hasFlag]="true" [isSwept]="true" [number]="1"></app-tile>
+<div 
+    class="tile-container"
+    [ngStyle]="{
+        'display': 'grid',
+        'grid-template': 'repeat('+height+',100px) / repeat('+width+',100px)' ,
+    }">
+    @for (row of tiles; track row.id) {
+        @for (tile of row.row; track tile.id) {
+            <app-tile 
+            [hasMine]="tile.hasMine"
+            [isRunning]="isRunning"
+            [number]="tile.number"
+            (gameOver)="handleGameOver()"
+        >
+        </app-tile>
+        
+        }
+    }
+</div>
