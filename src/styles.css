@@ -4,10 +4,21 @@
     src: url('/assets/fonts/Handjet/Handjet-VariableFont_ELGR,ELSH,wght.ttf');
   }
 
-* {
+  * {
     margin: 0px;
     padding: 0px;
     user-select: none;
     font-family: 'Handjet';
     font-weight: 500;
 }
+
+
+
+
+
+
+
+
+
+
+
