@@ -1,10 +1,22 @@
+/*
+#FBAE77
+#E86746
+#96DEFE
+#FFFEFF
+*/
+
 .component-container {
-    display: flex;
-    justify-content: center;
-    margin: auto;
+    border: 4px solid black;
+}
+
+.outer-container {
+    
+    border: 10px solid;
+    border-image-slice: 1;
+    border-image-source: linear-gradient(0deg, #E86746, #FBAE77, #FFFEFF, #96DEFE);
 }
 
 .tile-container {
     display: grid;
-    border: 1px solid black;
+    border: 4px solid black;
 }

@@ -1,15 +1,33 @@
+/*
+#FBAE77
+#E86746
+#96DEFE
+#FFFEFF
+*/
+
 .tile {
-    height: 100px;
-    width: 100px;
-    background-color: darkgrey;
-    border: 1px solid black;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 50px;
+    width: 50px;
+    background-color: #E6E6E6;
+    border-top: 10px solid #96DEFE;
+    border-left: 10px solid #E86746;
+    border-right: 10px solid #FFFEFF;
+    border-bottom: 10px solid #FBAE77;
+}
+
+.tile p {
+    font-size: 35pt;
 }
 
 .swept {
-    background-color: lightgrey;
+    border: 0px;
+    padding: 10px;
 }
 
 img {
-    height: 100%;
-    width: 100%;
+    height: 40px;
+    width: 40px;
 }

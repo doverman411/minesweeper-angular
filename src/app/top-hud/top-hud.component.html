@@ -1,12 +1,15 @@
-<app-timer
-    [startEventIn]="startEventIn"
-    [stopEventIn]="stopEventIn"
-    [resetEventIn]="resetEventIn"
-></app-timer>
-<app-game-button 
-[stopped]="stopped"
-[hasWon]="hasWon"
-(reset)="reset()"
->
-</app-game-button>
-<app-flag-counter [count]="remainingFlags"></app-flag-counter>
+<div class="component-container">
+    <app-timer
+        [startEventIn]="startEventIn"
+        [stopEventIn]="stopEventIn"
+        [resetEventIn]="resetEventIn"
+    >
+    </app-timer>
+    <app-game-button 
+    [stopped]="stopped"
+    [hasWon]="hasWon"
+    (reset)="reset()"
+    >
+    </app-game-button>
+    <app-flag-counter [count]="remainingFlags"></app-flag-counter>
+</div>

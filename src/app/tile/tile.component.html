@@ -15,6 +15,11 @@
         }
     } 
     @else if (isSwept && number > 0) {
-        <p>{{number}}</p>
+        <p [ngStyle]="{
+            'color': numberColor,
+            }"
+        >
+        {{number}}
+        </p>
     }
 </div>

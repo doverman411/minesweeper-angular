@@ -24,6 +24,29 @@ export class TileComponent {
   @Output() flagEvent = new EventEmitter<any>();
   @Output() tileClick = new EventEmitter<any>();
 
+  get numberColor() {
+    switch(this.number) {
+      case 1:
+        return 'red';
+      case 2:
+        return 'orange';
+      case 3:
+        return 'yellow';
+      case 4:
+        return 'green';
+      case 5:
+        return 'blue';
+      case 6:
+        return 'purple';
+      case 7:
+        return 'saddlebrown';
+      case 8:
+        return 'seagreen'
+      default:
+        return 'black';
+    }
+  }
+
   handleClick() {
     this.tileClick.emit(this.id);
   }

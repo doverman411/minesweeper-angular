@@ -12,9 +12,9 @@ import { Subject } from 'rxjs';
   styleUrl: './game-board.component.css'
 })
 export class GameBoardComponent {
-  width = 5;
-  height = 10;
-  numMines = 2;
+  width = 9;
+  height = 9;
+  numMines = 10;
   numFlags = 0;
   started = false;
   stopped = false;

@@ -1,30 +1,31 @@
 <div class="component-container">
-    <div 
-        class="tile-container"
-        [ngStyle]="{
-            'display': 'grid',
-            'grid-template': 'repeat('+height+',1fr) / repeat('+width+',1fr)' ,
-        }">
-        @for (row of tiles; track row.id) {
-            @for (tile of row.row; track tile.id) {
-                <app-tile 
-                [id]="tile.id"
-                [hasMine]="tile.hasMine"
-                [started]="started"
-                [stopped]="stopped"
-                [hasWon]="hasWon"
-                [number]="tile.number"
-                [hasFlag]="tile.hasFlag"
-                [isSwept]="tile.isSwept"
-                [resetEventIn]="resetEventIn"
-                (startEventOut)="start($event)"
-                (stopEventOut)="stop($event)"
-                (flagEvent)="handleFlag($event)"
-                (tileClick)="handleTileClick($event)"
-            >
-            </app-tile>
-            
+    <div class="outer-container">
+        <div 
+            class="tile-container"
+            [ngStyle]="{
+                'grid-template': 'repeat('+height+',1fr) / repeat('+width+',1fr)'
+            }">
+            @for (row of tiles; track row.id) {
+                @for (tile of row.row; track tile.id) {
+                    <app-tile 
+                    [id]="tile.id"
+                    [hasMine]="tile.hasMine"
+                    [started]="started"
+                    [stopped]="stopped"
+                    [hasWon]="hasWon"
+                    [number]="tile.number"
+                    [hasFlag]="tile.hasFlag"
+                    [isSwept]="tile.isSwept"
+                    [resetEventIn]="resetEventIn"
+                    (startEventOut)="start($event)"
+                    (stopEventOut)="stop($event)"
+                    (flagEvent)="handleFlag($event)"
+                    (tileClick)="handleTileClick($event)"
+                >
+                </app-tile>
+                
+                }
             }
-        }
+        </div>
     </div>
 </div>

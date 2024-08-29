@@ -15,6 +15,7 @@ export class TimerComponent implements OnInit, OnDestroy{
   private stopEventSubscription!: Subscription;
   private resetEventSubscription!: Subscription;
   timeElapsed = 0;
+  CAP = 999;
   intervalID: any;
 
   ngOnInit() {
