@@ -2,3 +2,7 @@ button {
     width: 100px;
     height: 100px;
 }
+
+p {
+    font-size: 50pt;
+}

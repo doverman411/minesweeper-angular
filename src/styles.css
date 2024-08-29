@@ -1,1 +1,13 @@
 /* You can add global styles to this file, and also import other style files */
+@font-face {
+    font-family: 'Handjet';
+    src: url('/assets/fonts/Handjet/Handjet-VariableFont_ELGR,ELSH,wght.ttf');
+  }
+
+* {
+    margin: 0px;
+    padding: 0px;
+    user-select: none;
+    font-family: 'Handjet';
+    font-weight: 500;
+}
