@@ -7,23 +7,7 @@
             }">
             @for (row of tiles; track row.id) {
                 @for (tile of row.row; track tile.id) {
-                    <app-tile 
-                    [id]="tile.id"
-                    [hasMine]="tile.hasMine"
-                    [started]="started"
-                    [stopped]="stopped"
-                    [hasWon]="hasWon"
-                    [number]="tile.number"
-                    [hasFlag]="tile.hasFlag"
-                    [isSwept]="tile.isSwept"
-                    [resetEventIn]="resetEventIn"
-                    (startEventOut)="start($event)"
-                    (stopEventOut)="stop($event)"
-                    (flagEvent)="handleFlag($event)"
-                    (tileClick)="handleTileClick($event)"
-                >
-                </app-tile>
-                
+                    <app-tile [id]="tile.id"></app-tile>
                 }
             }
         </div>

@@ -1,15 +1,5 @@
 <div class="component-container">
-    <app-timer
-        [startEventIn]="startEventIn"
-        [stopEventIn]="stopEventIn"
-        [resetEventIn]="resetEventIn"
-    >
-    </app-timer>
-    <app-game-button 
-    [stopped]="stopped"
-    [hasWon]="hasWon"
-    (reset)="reset()"
-    >
-    </app-game-button>
-    <app-flag-counter [count]="remainingFlags"></app-flag-counter>
+    <app-timer></app-timer>
+    <app-game-button></app-game-button>
+    <app-flag-counter></app-flag-counter>
 </div>

@@ -1,6 +1,6 @@
-import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import { Observable, Subscription } from 'rxjs';
+import { GameLogicService } from '../../services/game-logic.service';
 
 @Component({
   selector: 'app-tile',
@@ -9,29 +9,14 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './tile.component.html',
   styleUrl: './tile.component.css'
 })
-export class TileComponent {
-  @Input() hasMine!: boolean;
-  @Input() started!: boolean;
-  @Input() stopped!: boolean;
-  @Input() hasWon!: boolean;
-  @Input() number!: number;
-  @Input() hasFlag!: boolean;
-  @Input() isSwept!: boolean;
+export class TileComponent implements OnInit {
   @Input() id!: any;
-  @Input() resetEventIn!: Observable<void>;
-  @Output() startEventOut = new EventEmitter<any>();
-  @Output() stopEventOut = new EventEmitter<boolean>();
-  @Output() flagEvent = new EventEmitter<any>();
-  @Output() tileClick = new EventEmitter<any>();
-
-
-/*
-#FBAE77
-#E86746
-#96DEFE
-#FFFEFF
-*/
-
+  hasMine!: boolean;
+  number!: number;
+  hasFlag!: boolean;
+  isSwept!: boolean;
+  stopped!: boolean;
+  hasWon!: boolean;
 
   get numberColor() {
     switch(this.number) {
@@ -56,18 +41,52 @@ export class TileComponent {
     }
   }
 
+  get gameLogicTile() {
+    return this.gameLogicService.tileWithID(this.id);
+  }
+  get hasMineSubject() {
+    return this.gameLogicTile.hasMine;
+  }
+  get numberSubject() {
+    return this.gameLogicTile.number;
+  }
+  get hasFlagSubject() {
+    return this.gameLogicTile.hasFlag;
+  }
+  get isSweptSubject() {
+    return this.gameLogicTile.isSwept;
+  }
+
+  constructor(private gameLogicService: GameLogicService) {}
+
+  ngOnInit(): void {
+    this.hasMineSubject.subscribe((value: boolean)=>{
+      this.hasMine = value;
+    });
+    this.numberSubject.subscribe((value: number)=>{
+      this.number = value;
+    });
+    this.hasFlagSubject.subscribe((value: boolean)=>{
+      this.hasFlag = value;
+    });
+    this.isSweptSubject.subscribe((value: boolean)=>{
+      this.isSwept = value;
+    });
+    this.gameLogicService.stopped$.subscribe((value: boolean)=>{
+      this.stopped = value;
+    });
+    this.gameLogicService.hasWon$.subscribe((value: boolean)=>{
+      this.hasWon = value;
+    });
+  }
+
   handleClick() {
-    this.tileClick.emit(this.id);
+    this.gameLogicService.clickTile(this.id);
   }
   
   handleContextMenu(event: any) {
     event.preventDefault();
-    if (this.isSwept || this.stopped) return;
-    this.hasFlag = !this.hasFlag;
-    this.flagEvent.emit({
-      hasFlag: this.hasFlag,
-      tileID: this.id
-    });
+    this.gameLogicService.flagTile(this.id);
   }
   
 }

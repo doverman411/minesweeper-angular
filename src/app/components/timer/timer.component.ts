@@ -1,5 +1,5 @@
-import { Component, Input, OnInit, OnDestroy } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { GameLogicService } from '../../services/game-logic.service';
 @Component({
   selector: 'app-timer',
   standalone: true,
@@ -7,29 +7,38 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './timer.component.html',
   styleUrl: './timer.component.css'
 })
-export class TimerComponent implements OnInit, OnDestroy{
-  @Input() startEventIn!: Observable<void>;
-  @Input() stopEventIn!: Observable<boolean>;
-  @Input() resetEventIn!: Observable<void>;
-  private startEventSubscription!: Subscription;
-  private stopEventSubscription!: Subscription;
-  private resetEventSubscription!: Subscription;
+export class TimerComponent implements OnInit {
+  started!: boolean;
+  stopped!: boolean
   timeElapsed = 0;
   CAP = 999;
   intervalID: any;
 
-  ngOnInit() {
-    this.startEventSubscription = this.startEventIn.subscribe(()=>this.start());
-    this.stopEventSubscription = this.stopEventIn.subscribe((hasWon: boolean)=>{this.stop()});
-    this.resetEventSubscription = this.resetEventIn.subscribe(()=>this.reset());
+  constructor(private gameLogicService: GameLogicService) {}
+
+  ngOnInit(): void {
+    this.gameLogicService.started$.subscribe((value)=>{
+      if (value === this.started) {
+        return;
+      }
+      if (value) {
+        this.start();
+      } else {
+        this.reset();
+      }
+      this.started = value;
+    });
+    this.gameLogicService.stopped$.subscribe((value)=>{
+      if (value === this.stopped) {
+        return;
+      }
+      if (value === true) {
+        this.stop();
+      }
+      this.stopped = value;
+    });
   }
 
-  ngOnDestroy() {
-    this.startEventSubscription.unsubscribe();
-    this.stopEventSubscription.unsubscribe();
-    this.resetEventSubscription.unsubscribe();
-  }
-  
   start() {
     this.intervalID = setInterval(()=>++this.timeElapsed,1000);
   }

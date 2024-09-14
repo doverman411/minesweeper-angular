@@ -1,5 +1,5 @@
-import { Component, Input } from '@angular/core';
-import { Observable, Subscription } from 'rxjs';
+import { Component, OnInit } from '@angular/core';
+import { GameLogicService } from '../../services/game-logic.service';
 
 @Component({
   selector: 'app-flag-counter',
@@ -8,6 +8,14 @@ import { Observable, Subscription } from 'rxjs';
   templateUrl: './flag-counter.component.html',
   styleUrl: './flag-counter.component.css'
 })
-export class FlagCounterComponent {
-  @Input() count!: number;
+export class FlagCounterComponent implements OnInit {
+  count!: number;
+
+  constructor(private gameLogicService: GameLogicService) {}
+
+  ngOnInit(): void {
+    this.gameLogicService.remainingFlags$.subscribe((value)=>{
+      this.count = value;
+    })
+  }
 }

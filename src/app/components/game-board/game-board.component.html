@@ -1,24 +1,4 @@
 <div class="component-container">
-    <app-top-hud
-        [stopped]="stopped"
-        [hasWon]="hasWon"
-        [remainingFlags]="remainingFlags"
-        [startEventIn]="startSubject.asObservable()"
-        [stopEventIn]="stopSubject.asObservable()"
-        [resetEventIn]="resetSubject.asObservable()"
-        (resetEventOut)="reset()"
-    ></app-top-hud>
-    <app-tile-container
-        [started]="started"
-        [stopped]="stopped"
-        [hasWon]="hasWon"
-        [width]="width"
-        [height]="height"
-        [numMines]="numMines"
-        [resetEventIn]="resetSubject.asObservable()"
-        (startEventOut)="start()"
-        (stopEventOut)="stop($event)"
-        (flagEvent)="updateFlagCount($event)"
-    >
-    </app-tile-container>
+    <app-top-hud></app-top-hud>
+    <app-tile-container></app-tile-container>
 </div>
