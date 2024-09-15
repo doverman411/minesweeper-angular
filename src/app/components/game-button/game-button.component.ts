@@ -11,6 +11,7 @@ import { GameLogicService } from '../../services/game-logic.service';
 export class GameButtonComponent implements OnInit {
   stopped!: boolean;
   hasWon!: boolean;
+  sweeping!: boolean;
 
   constructor(private gameLogicService: GameLogicService) {}
 
@@ -20,6 +21,9 @@ export class GameButtonComponent implements OnInit {
     });
     this.gameLogicService.hasWon$.subscribe((value) => {
       this.hasWon = value;
+    });
+    this.gameLogicService.sweeping$.subscribe((value) => {
+      this.sweeping = value;
     });
   }
 

@@ -115,7 +115,6 @@ export class TileComponent implements OnInit {
   }
 
   handleRightClick(event: any) {
-    console.log(event);
     this.gameLogicService.flagTile(this.id);
   }
   

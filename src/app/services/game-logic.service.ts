@@ -15,6 +15,7 @@ export class GameLogicService {
   private remainingFlags = new BehaviorSubject<number>(this.numMines.value);
   private tiles = new BehaviorSubject<any>([]);
   private tilesCleared = new BehaviorSubject<number>(0);
+  private sweeping = new BehaviorSubject<boolean>(false);
 
   width$ = this.width.asObservable();
   height$ = this.width.asObservable();
@@ -26,6 +27,7 @@ export class GameLogicService {
   remainingFlags$ = this.remainingFlags.asObservable();
   tiles$ = this.tiles.asObservable();
   tilesCleared$ = this.tilesCleared.asObservable();
+  sweeping$ = this.sweeping.asObservable();
 
   setWidth(width: number) {
     this.width.next(width); 
@@ -56,6 +58,9 @@ export class GameLogicService {
   setTilesCleared(tilesCleared: number) {
     this.tilesCleared.next(tilesCleared); 
   }
+  setSweeping(sweeping: boolean) {
+    this.sweeping.next(sweeping);
+  }
 
   startAt(tileID: any) {
     this.setStarted(true);
@@ -73,6 +78,7 @@ export class GameLogicService {
     this.setStopped(false);
     this.setHasWon(false);
     this.setTilesCleared(0);
+    this.setSweeping(false);
     this.initializeTiles();
   }
 
@@ -154,7 +160,8 @@ export class GameLogicService {
   }
 
   clickTile(tileID: any) {
-    const tile: any = this.tileWithID(tileID);
+    this.sweeping.next(false);
+    const tile = this.tileWithID(tileID);
     if (tile.hasFlag.value || this.stopped.value) {
       return;
     }
@@ -172,11 +179,13 @@ export class GameLogicService {
     }
     if (!tile.isSwept.value && !tile.sweptPreview.value) {
       tile.sweptPreview.next(true);
+      this.sweeping.next(true);
     }
     else if (tile.isSwept.value && this.canChord(tileID)) {
       for (const chordTileID of this.chordedTileIDs(tileID)) {
         this.tileWithID(chordTileID).sweptPreview.next(true);
       }
+      this.sweeping.next(true);
     }
   }
 
@@ -187,17 +196,21 @@ export class GameLogicService {
     }
     if (!tile.isSwept.value && tile.sweptPreview.value) {
       tile.sweptPreview.next(false);
+      this.sweeping.next(false);
     }
     else if (tile.isSwept.value && this.canChord(tileID)) {
       for (const chordTileID of this.chordedTileIDs(tileID)) {
         this.tileWithID(chordTileID).sweptPreview.next(false);
       }
+      this.sweeping.next(false);
     }
   }
 
   canChord(tileID: any) {
-    const tile: any = this.tileWithID(tileID);
-    return this.tileIDsAround(tileID).filter((tid: any)=>this.tileWithID(tid).hasFlag.value).length === tile.number.value;
+    const tile = this.tileWithID(tileID);
+    const surroundingTiles: any = this.tilesAround(tileID);
+    return surroundingTiles.filter((t: any)=>t.hasFlag.value).length === tile.number.value 
+      && surroundingTiles.filter((t: any)=>t.isSwept.value).length !== 8-tile.number.value;
   }
 
   chordedTileIDs(tileID: any) {
@@ -205,7 +218,7 @@ export class GameLogicService {
   }
 
   chord(tileID: any) {
-    const tile: any = this.tileWithID(tileID);
+    const tile = this.tileWithID(tileID);
     const tileIDsAround = this.tileIDsAround(tileID);
     if (this.canChord(tileID)) {
       for (const chordTileID of this.chordedTileIDs(tileID)) {
@@ -239,11 +252,11 @@ export class GameLogicService {
     }
   }
 
-  flagTile(id: any) {
+  flagTile(tileID: any) {
     if (this.stopped.value) {
       return;
     }
-    const tile: any = this.tileWithID(id);
+    const tile = this.tileWithID(tileID);
     if (tile.isSwept.value) {
       return;
     }
@@ -251,6 +264,4 @@ export class GameLogicService {
     tile.hasFlag.next(!hasFlagBefore);
     this.setNumFlags(this.numFlags.value + (hasFlagBefore ? -1 : 1));
   }
-
-  constructor() {}
 }
