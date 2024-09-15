@@ -89,21 +89,34 @@ export class TileComponent implements OnInit {
   
   handleContextMenu(event: any) {
     event.preventDefault();
-    this.gameLogicService.flagTile(this.id);
-  }
-
-  handleMouseLeave(event: any) {
-    this.gameLogicService.leaveTile(this.id, event);
   }
 
   handleMouseEnter(event: any) {
     this.gameLogicService.enterTile(this.id, event);
   }
 
+  handleMouseLeave(event: any) {
+    this.gameLogicService.leaveTile(this.id, event);
+  }
+
+  handleMouseDown(event: any) {
+    if (event.button === 0) {
+      this.handleMouseEnter(event);
+    }
+    else if (event.button === 2) {
+      this.gameLogicService.flagTile(this.id);
+    }
+  }
+
   handleMouseUp(event: any) {
     if (!this.stopped && event.button === 0) {
       this.gameLogicService.clickTile(this.id);
     }
+  }
+
+  handleRightClick(event: any) {
+    console.log(event);
+    this.gameLogicService.flagTile(this.id);
   }
   
 }

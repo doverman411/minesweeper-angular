@@ -4,7 +4,7 @@
     (contextmenu)="handleContextMenu($event)"
     (mouseenter)="handleMouseEnter($event)"
     (mouseleave)="handleMouseLeave($event)"
-    (mousedown)="handleMouseEnter($event)"
+    (mousedown)="handleMouseDown($event)"
     (mouseup)="handleMouseUp($event)"
 >
     @if (hasMine && !hasFlag && (isSwept || (stopped && !hasWon))) {
