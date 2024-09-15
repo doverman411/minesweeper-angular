@@ -17,6 +17,7 @@ export class TileComponent implements OnInit {
   isSwept!: boolean;
   stopped!: boolean;
   hasWon!: boolean;
+  sweptPreview!: boolean;
 
   get numberColor() {
     switch(this.number) {
@@ -56,6 +57,9 @@ export class TileComponent implements OnInit {
   get isSweptSubject() {
     return this.gameLogicTile.isSwept;
   }
+  get sweptPreviewSubject() {
+    return this.gameLogicTile.sweptPreview;
+  }
 
   constructor(private gameLogicService: GameLogicService) {}
 
@@ -72,6 +76,9 @@ export class TileComponent implements OnInit {
     this.isSweptSubject.subscribe((value: boolean)=>{
       this.isSwept = value;
     });
+    this.sweptPreviewSubject.subscribe((value: boolean)=>{
+      this.sweptPreview = value;
+    })
     this.gameLogicService.stopped$.subscribe((value: boolean)=>{
       this.stopped = value;
     });
@@ -79,14 +86,24 @@ export class TileComponent implements OnInit {
       this.hasWon = value;
     });
   }
-
-  handleClick() {
-    this.gameLogicService.clickTile(this.id);
-  }
   
   handleContextMenu(event: any) {
     event.preventDefault();
     this.gameLogicService.flagTile(this.id);
+  }
+
+  handleMouseLeave(event: any) {
+    this.gameLogicService.leaveTile(this.id, event);
+  }
+
+  handleMouseEnter(event: any) {
+    this.gameLogicService.enterTile(this.id, event);
+  }
+
+  handleMouseUp(event: any) {
+    if (!this.stopped && event.button === 0) {
+      this.gameLogicService.clickTile(this.id);
+    }
   }
   
 }

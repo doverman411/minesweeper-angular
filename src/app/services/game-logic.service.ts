@@ -121,6 +121,7 @@ export class GameLogicService {
             number: new BehaviorSubject<number>(0),
             hasFlag: new BehaviorSubject<boolean>(false),
             isSwept: new BehaviorSubject<boolean>(false),
+            sweptPreview: new BehaviorSubject<boolean>(false),
           }
         });
       }
@@ -161,6 +162,20 @@ export class GameLogicService {
       this.chord(tileID);
     } else {
       this.sweep(tileID);
+    }
+  }
+
+  enterTile(tileID: any, event: any) {
+    const tile = this.tileWithID(tileID);
+    if (!this.stopped.value && !tile.isSwept.value && !tile.hasFlag.value && !tile.sweptPreview.value && event.buttons == 1) {
+      tile.sweptPreview.next(true);
+    }
+  }
+
+  leaveTile(tileID: any, event: any) {
+    const tile = this.tileWithID(tileID);
+    if (!this.stopped.value && !tile.isSwept.value && !tile.hasFlag.value && tile.sweptPreview.value && event.buttons == 1) {
+      tile.sweptPreview.next(false);
     }
   }
 

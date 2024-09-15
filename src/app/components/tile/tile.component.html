@@ -1,8 +1,12 @@
 <div 
     class="tile" 
-    [ngClass]="{'swept':isSwept}" 
-    (click)="handleClick()"
-    (contextmenu)="handleContextMenu($event)">
+    [ngClass]="{'swept':isSwept || sweptPreview}" 
+    (contextmenu)="handleContextMenu($event)"
+    (mouseenter)="handleMouseEnter($event)"
+    (mouseleave)="handleMouseLeave($event)"
+    (mousedown)="handleMouseEnter($event)"
+    (mouseup)="handleMouseUp($event)"
+>
     @if (hasMine && !hasFlag && (isSwept || (stopped && !hasWon))) {
         <img src="/assets/images/mine.png">
     } 
