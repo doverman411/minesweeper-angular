@@ -167,24 +167,49 @@ export class GameLogicService {
 
   enterTile(tileID: any, event: any) {
     const tile = this.tileWithID(tileID);
-    if (!this.stopped.value && !tile.isSwept.value && !tile.hasFlag.value && !tile.sweptPreview.value && event.buttons == 1) {
+    if (this.stopped.value || tile.hasFlag.value || event.buttons !== 1) {
+      return;
+    }
+    if (!tile.isSwept.value && !tile.sweptPreview.value) {
       tile.sweptPreview.next(true);
+    }
+    else if (tile.isSwept.value && this.canChord(tileID)) {
+      for (const chordTileID of this.chordedTileIDs(tileID)) {
+        this.tileWithID(chordTileID).sweptPreview.next(true);
+      }
     }
   }
 
   leaveTile(tileID: any, event: any) {
     const tile = this.tileWithID(tileID);
-    if (!this.stopped.value && !tile.isSwept.value && !tile.hasFlag.value && tile.sweptPreview.value && event.buttons == 1) {
+    if (this.stopped.value || tile.hasFlag.value || event.buttons !== 1) {
+      return;
+    }
+    if (!tile.isSwept.value && tile.sweptPreview.value) {
       tile.sweptPreview.next(false);
     }
+    else if (tile.isSwept.value && this.canChord(tileID)) {
+      for (const chordTileID of this.chordedTileIDs(tileID)) {
+        this.tileWithID(chordTileID).sweptPreview.next(false);
+      }
+    }
+  }
+
+  canChord(tileID: any) {
+    const tile: any = this.tileWithID(tileID);
+    return this.tileIDsAround(tileID).filter((tid: any)=>this.tileWithID(tid).hasFlag.value).length === tile.number.value;
+  }
+
+  chordedTileIDs(tileID: any) {
+    return this.tileIDsAround(tileID).filter((tid: any)=>!this.tileWithID(tid).hasFlag.value);
   }
 
   chord(tileID: any) {
     const tile: any = this.tileWithID(tileID);
     const tileIDsAround = this.tileIDsAround(tileID);
-    if (tileIDsAround.filter((tid: any)=>this.tileWithID(tid).hasFlag.value).length === tile.number.value) {
-      for(const tileID of tileIDsAround.filter((tid: any)=>!this.tileWithID(tid).hasFlag.value)) {
-        this.sweep(tileID);
+    if (this.canChord(tileID)) {
+      for (const chordTileID of this.chordedTileIDs(tileID)) {
+        this.sweep(chordTileID);
       }
     }
   }
