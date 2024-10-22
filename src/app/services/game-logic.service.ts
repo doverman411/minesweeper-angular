@@ -5,9 +5,9 @@ import { BehaviorSubject } from 'rxjs';
   providedIn: 'root'
 })
 export class GameLogicService {
-  private width = new BehaviorSubject<number>(24); 
-  private height = new BehaviorSubject<number>(20);
-  private numMines = new BehaviorSubject<number>(99);
+  private width = new BehaviorSubject<number>(24);
+  private height = new BehaviorSubject<number>(20); 
+  private numMines = new BehaviorSubject<number>(99); 
   private numFlags = new BehaviorSubject<number>(0);
   private started = new BehaviorSubject<boolean>(false);
   private stopped = new BehaviorSubject<boolean>(false);
@@ -210,7 +210,7 @@ export class GameLogicService {
     const tile = this.tileWithID(tileID);
     const surroundingTiles: any = this.tilesAround(tileID);
     return surroundingTiles.filter((t: any)=>t.hasFlag.value).length === tile.number.value 
-      && surroundingTiles.filter((t: any)=>t.isSwept.value).length !== 8-tile.number.value;
+      && surroundingTiles.filter((t: any)=>t.isSwept.value).length !== surroundingTiles.length-tile.number.value;
   }
 
   chordedTileIDs(tileID: any) {
@@ -229,7 +229,7 @@ export class GameLogicService {
 
   sweep(tileID: any) {
     const tile: any = this.tileWithID(tileID);
-    if (tile.isSwept.value || tile.hasFlag.value || this.stopped.value ) {
+    if (tile.isSwept.value || tile.hasFlag.value || this.stopped.value) {
       return;
     }
     tile.isSwept.next(true);
